@@ -33,4 +33,9 @@ public class GameBoard {
             System.out.println();
         }
     }
+
+    public void addShipToGame(Ship battleShip, Coord start, Coord end) {
+        // Ships should not cross
+        // Ships should not touch each other
+    }
 }

@@ -1,8 +1,8 @@
 package battleship;
 
 public class Ship {
-    ShipType ship;
-    int cells;
+    private ShipType ship;
+    private int cells;
 
     public Ship(ShipType typeOfShip) {
         ship = typeOfShip;
@@ -24,4 +24,7 @@ public class Ship {
                 cells = 0;
         }
     }
+
+    public int getCells() { return cells; }
+    public ShipType getShip() { return ship; }
 }
