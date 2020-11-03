@@ -27,4 +27,5 @@ public class Ship {
 
     public int getCells() { return cells; }
     public ShipType getShip() { return ship; }
+
 }

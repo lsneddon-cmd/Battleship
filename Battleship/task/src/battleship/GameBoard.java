@@ -34,6 +34,20 @@ public class GameBoard {
         }
     }
 
+    public static boolean isShipHorizontal(Coord start, Coord end) {
+        return start.getRow() == end.getRow();
+    }
+
+    public boolean spaceForShip(Ship battleShip, Coord start, Coord end) {
+        // establish ship is horizontal or vertical
+        // establish space around ship
+        if (isShipHorizontal(start, end)) {
+
+        } else {
+
+        }
+    }
+
     public void addShipToGame(Ship battleShip, Coord start, Coord end) {
         // Ships should not cross
         // Ships should not touch each other

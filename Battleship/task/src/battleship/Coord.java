@@ -52,11 +52,12 @@ public class Coord {
         if (start.getCol() == end.getCol()) {
             return Math.abs(start.getRow() - end.getRow()) == ship.getCells();
         }
+        System.out.println("Error: Coordinates given do not match the length of ship");
         return false;
     }
 
     public boolean isValidCoord() {
-        return row != -1 || col < 1 || col > 10;
+        return row != -1 && col > 1 && col < 10;
     }
     public int getRow() { return row; }
     public int getCol() { return col; }
