@@ -46,14 +46,23 @@ public class Coord {
     }
 
     public static boolean isLengthCorrect(Coord start, Coord end, Ship ship) {
-        if (start.getRow() == end.getRow()) {
-            return Math.abs(start.getCol() - end.getCol()) == ship.getCells();
-        }
-        if (start.getCol() == end.getCol()) {
+        if (areCoordsHorizontal(start, end)) {
+            return Math.abs((start.getCol() - end.getCol()) / 2) == ship.getCells();
+        } else {
             return Math.abs(start.getRow() - end.getRow()) == ship.getCells();
         }
-        System.out.println("Error: Coordinates given do not match the length of ship");
-        return false;
+    }
+
+    public static boolean areCoordsHorizontal(Coord start, Coord end) {
+        return start.getRow() == end.getRow();
+    }
+
+    public static boolean doCoordsAscend(Coord start, Coord end) {
+        if (areCoordsHorizontal(start, end)) {
+            return start.getCol() < end.getCol();
+        } else {
+            return start.getRow() < end.getRow();
+        }
     }
 
     public boolean isValidCoord() {

@@ -34,22 +34,31 @@ public class GameBoard {
         }
     }
 
-    public static boolean isShipHorizontal(Coord start, Coord end) {
-        return start.getRow() == end.getRow();
-    }
-
-    public boolean spaceForShip(Ship battleShip, Coord start, Coord end) {
+    public boolean spaceForShip(Coord start, Coord end) {
         // establish ship is horizontal or vertical
-        // establish space around ship
-        if (isShipHorizontal(start, end)) {
-
+        // establish space for ship
+        if (Coord.areCoordsHorizontal(start, end)) {
+            for (int col = start.getCol(); col < end.getCol(); col += 2) {
+                if (!board[start.getRow()][col].equals("~")) {
+                    return false;
+                }
+            }
+            return true;
         } else {
-
+            if (start.getRow() < end.getRow()) {
+                for (int row = start.getRow(); row < end.getRow(); row++) {
+                    if (!board[row][start.getCol()].equals("~")) {
+                        return false;
+                    }
+                }
+            }
         }
+        return true;
     }
-
-    public void addShipToGame(Ship battleShip, Coord start, Coord end) {
-        // Ships should not cross
-        // Ships should not touch each other
+    public boolean inputShipVertically(Coord start, Coord end) {
+        for (int row = start.getRow(); row < end.getRow(); row++) {
+            board[row][start.getCol()] = "0";
+        }
+        return true;
     }
 }
