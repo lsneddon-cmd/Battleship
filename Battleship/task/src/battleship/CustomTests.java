@@ -33,5 +33,13 @@ public class CustomTests {
         System.out.println("Re-checking space for ship function returns false when no space");
         System.out.print("Expect False: ");
         System.out.println(game.spaceForShip(firstCoord, secondCoord));
+
+        System.out.println("Try putting Destroyer horizontally A3 - A4");
+        Coord dStart = new Coord("A3");
+        Coord dEnd = new Coord("A4");
+        Ship dShip = new Ship(ShipType.Destroyer);
+        System.out.println("Checking ship size");
+        System.out.print("Expect 2: ");
+        System.out.println(dShip.getCells());
     }
 }

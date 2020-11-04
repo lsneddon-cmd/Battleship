@@ -55,10 +55,24 @@ public class GameBoard {
         }
         return true;
     }
+
     public boolean inputShipVertically(Coord start, Coord end) {
-        for (int row = start.getRow(); row < end.getRow(); row++) {
-            board[row][start.getCol()] = "0";
+        if (!Coord.areCoordsHorizontal(start, end)) {
+            for (int row = start.getRow(); row < end.getRow(); row++) {
+                board[row][start.getCol()] = "0";
+            }
+            return true;
         }
-        return true;
+        return false;
+    }
+
+    public boolean inputShipHorizontally(Coord start, Coord end) {
+        if (Coord.areCoordsHorizontal(start, end)) {
+            for (int col = start.getCol(); col < end.getCol(); col += 2) {
+                board[start.getRow()][col] = "0";
+                return true;
+            }
+        }
+        return false;
     }
 }
