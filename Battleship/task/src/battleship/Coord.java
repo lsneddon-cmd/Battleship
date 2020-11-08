@@ -8,46 +8,45 @@ public class Coord {
         // A is row 1 then sequentially to J = 10
         switch (inputCoord.charAt(0)) {
             case 'A':
-                row = 1;
+                row = 0;
                 break;
             case 'B':
-                row = 2;
+                row = 1;
                 break;
             case 'C':
-                row = 3;
+                row = 2;
                 break;
             case 'D':
-                row = 4;
+                row = 3;
                 break;
             case 'E':
-                row = 5;
+                row = 4;
                 break;
             case 'F':
-                row = 6;
+                row = 5;
                 break;
             case'G':
-                row = 7;
+                row = 6;
                 break;
             case 'H':
-                row = 8;
+                row = 7;
                 break;
             case 'I':
-                row = 9;
+                row = 8;
                 break;
             case 'J':
-                row = 10;
+                row = 9;
                 break;
             default:
                 // Error case
                 row = -1;
         }
-        // 1 is row 2 then up in 2's until 20
-        col = 2 * Integer.parseInt(String.valueOf(inputCoord.charAt(1)));
+        col = Integer.parseInt(String.valueOf(inputCoord.charAt(1)));
     }
 
     public static boolean isLengthCorrect(Coord start, Coord end, Ship ship) {
         if (areCoordsHorizontal(start, end)) {
-            return Math.abs((start.getCol() - end.getCol()) / 2) == ship.getCells();
+            return Math.abs(start.getCol() - end.getCol()) == ship.getCells();
         } else {
             return Math.abs(start.getRow() - end.getRow()) == ship.getCells();
         }

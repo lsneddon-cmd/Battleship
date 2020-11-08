@@ -38,7 +38,7 @@ public class GameBoard {
         // establish ship is horizontal or vertical
         // establish space for ship
         if (Coord.areCoordsHorizontal(start, end)) {
-            for (int col = start.getCol(); col < end.getCol(); col += 2) {
+            for (int col = start.getCol(); col < end.getCol(); col++) {
                 if (!board[start.getRow()][col].equals("~")) {
                     return false;
                 }
@@ -68,7 +68,7 @@ public class GameBoard {
 
     public boolean inputShipHorizontally(Coord start, Coord end) {
         if (Coord.areCoordsHorizontal(start, end)) {
-            for (int col = start.getCol(); col < end.getCol(); col += 2) {
+            for (int col = start.getCol(); col < end.getCol(); col++) {
                 board[start.getRow()][col] = "0";
                 return true;
             }
