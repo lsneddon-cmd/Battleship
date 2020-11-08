@@ -58,7 +58,7 @@ public class GameBoard {
 
     public boolean inputShipVertically(Coord start, Coord end) {
         if (!Coord.areCoordsHorizontal(start, end)) {
-            for (int row = start.getRow(); row < end.getRow(); row++) {
+            for (int row = start.getRow(); row <= end.getRow(); row++) {
                 board[row][start.getCol()] = "0";
             }
             return true;
@@ -68,10 +68,10 @@ public class GameBoard {
 
     public boolean inputShipHorizontally(Coord start, Coord end) {
         if (Coord.areCoordsHorizontal(start, end)) {
-            for (int col = start.getCol(); col < end.getCol(); col++) {
+            for (int col = start.getCol(); col <= end.getCol(); col++) {
                 board[start.getRow()][col] = "0";
-                return true;
             }
+            return true;
         }
         return false;
     }

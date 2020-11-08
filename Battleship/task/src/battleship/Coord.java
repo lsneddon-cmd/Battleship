@@ -41,7 +41,7 @@ public class Coord {
                 // Error case
                 row = -1;
         }
-        col = Integer.parseInt(String.valueOf(inputCoord.charAt(1)));
+        col = Integer.parseInt(String.valueOf(inputCoord.charAt(1))) - 1;
     }
 
     public static boolean isLengthCorrect(Coord start, Coord end, Ship ship) {

@@ -20,5 +20,15 @@ public class Main {
         System.out.println("Coords are vertical: " + !Coord.areCoordsHorizontal(a1, e1));
         game.inputShipVertically(a1, e1);
         game.printBoard();
+
+        System.out.println("Inputting Destroyer at I6 to I8");
+        Ship dest = new Ship(ShipType.Destroyer);
+        Coord i6 = new Coord("I6");
+        Coord i8 = new Coord("I8");
+        System.out.println("Space: " + game.spaceForShip(i6, i8));
+        System.out.println(game.inputShipHorizontally(i6, i8));
+        game.printBoard();
+        System.out.println("I6 row: " + i6.getRow() + " col: " + i6.getCol());
+        System.out.println("I8 row: " + i8.getRow() + " col: " + i8.getCol());
     }
 }
