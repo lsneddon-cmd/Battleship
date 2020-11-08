@@ -1,6 +1,12 @@
 package battleship;
 
 public class CustomTests {
+
+    public static void testGameBoard() {
+        GameBoard testGame = new GameBoard();
+        testGame.printBoard();
+    }
+
     public static void runTestOne() {
         GameBoard game = new GameBoard();
         game.printBoard();

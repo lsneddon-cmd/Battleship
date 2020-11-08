@@ -4,6 +4,7 @@ public class Main {
 
     public static void main(String[] args) {
         // Write your code here
-        CustomTests.runTestOne();
+//        CustomTests.runTestOne();
+        CustomTests.testGameBoard();
     }
 }

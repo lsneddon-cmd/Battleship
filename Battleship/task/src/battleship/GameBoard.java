@@ -1,34 +1,34 @@
 package battleship;
 
 public class GameBoard {
-    String[][] board = new String[11][21];
+    String[][] board = new String[10][10];
 
     public GameBoard() {
-        board[0][0] = " ";
-        for (int i = 1; i < 21; i += 2) {
-            board[0][i] = " ";
-        }
-        for (int i = 2; i < 21; i += 2) {
-            board[0][i] = String.valueOf(i / 2);
-        }
-        for (int i = 1; i < 11; i++) {
-            for (int j = 1; j < 21; j++) {
-                if (j % 2 == 0) {
-                    board[i][j] = "~";
-                } else {
-                    board[i][j] = " ";
-                }
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                board[i][j] = "~";
             }
-        }
-        for (int i = 1; i < 11; i++) {
-            board[i][0] = String.valueOf((char) (i + 64));
         }
     }
 
     public void printBoard() {
-        for (int i = 0; i < 11; i++) {
-            for (int j = 0; j < 21; j++) {
-                System.out.print(board[i][j]);
+        System.out.print("  ");
+        for (int i = 1; i < 21; i++) {
+            if (i % 2 != 0) {
+                System.out.print(String.valueOf((i / 2) + 1));
+            } else {
+                System.out.print(' ');
+            }
+        }
+        System.out.println();
+        for (int i = 1; i < 11; i++) {
+            System.out.print(String.valueOf((char) (i + 64)));
+            for (int j = 1; j < 21; j++) {
+                if (j % 2 == 0) {
+                    System.out.print(board[i - 1][(j - 1) / 2]);
+                } else {
+                    System.out.print(' ');
+                }
             }
             System.out.println();
         }
