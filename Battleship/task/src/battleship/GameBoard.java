@@ -56,23 +56,22 @@ public class GameBoard {
         return true;
     }
 
-    public boolean inputShipVertically(Coord start, Coord end) {
-        if (!Coord.areCoordsHorizontal(start, end)) {
+    public boolean inputShip(Coord start, Coord end, Ship ship) {
+        if (!Coord.isLengthCorrect(start, end, ship)) {
+            System.out.println("Error: Co-ordinates are incorrect for length of ship: " + ship.getShip());
+            return false;
+        } else if (!Coord.areCoordsHorizontal(start, end)) {
+            // Inputting ship vertically
             for (int row = start.getRow(); row <= end.getRow(); row++) {
                 board[row][start.getCol()] = "0";
             }
             return true;
-        }
-        return false;
-    }
-
-    public boolean inputShipHorizontally(Coord start, Coord end) {
-        if (Coord.areCoordsHorizontal(start, end)) {
+        } else {
+            // inputting ship horizontally
             for (int col = start.getCol(); col <= end.getCol(); col++) {
                 board[start.getRow()][col] = "0";
             }
             return true;
         }
-        return false;
     }
 }
