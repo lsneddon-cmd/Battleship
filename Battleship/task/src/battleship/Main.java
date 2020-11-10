@@ -7,7 +7,6 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         GameBoard game = new GameBoard();
-        game.printBoard();
 
         Ship[] ships = {
                 new Ship(ShipType.AircraftCarrier),
@@ -18,7 +17,7 @@ public class Main {
         };
 
         for (int ship = 0; ship < ships.length; ship++) {
-            System.out.println("Enter the coordinates for the " + ships[ship].getShip()
+            System.out.println("Enter the coordinates of the " + ships[ship].getShipAsString()
             + " (" + ships[ship].getCells() + " cells):");
             placeShipOnBoard(game, ships[ship], scanner);
             game.printBoard();

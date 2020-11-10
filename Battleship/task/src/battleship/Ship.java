@@ -27,5 +27,20 @@ public class Ship {
 
     public int getCells() { return cells; }
     public ShipType getShip() { return ship; }
-
+    public String getShipAsString() {
+        switch (ship) {
+            case AircraftCarrier:
+                return "Aircraft Carrier";
+            case BattleShip:
+                return "Battleship";
+            case Submarine:
+                return "Submarine";
+            case Cruiser:
+                return "Cruiser";
+            case Destroyer:
+                return "Destroyer";
+            default:
+                return "Error";
+        }
+    }
 }

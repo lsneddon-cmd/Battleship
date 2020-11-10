@@ -73,21 +73,21 @@ public class GameBoard {
 
     public void inputShipVertically(Coord start, Coord end) {
         for (int row = start.getRow(); row <= end.getRow(); row++) {
-            board[row][start.getCol()] = "0";
+            board[row][start.getCol()] = "O";
         }
     }
 
     public void inputShipHorizontally(Coord start, Coord end) {
         for (int col = start.getCol(); col <= end.getCol(); col++) {
-            board[start.getRow()][col] = "0";
+            board[start.getRow()][col] = "O";
         }
     }
 
     public static boolean isLengthCorrect(Coord start, Coord end, Ship ship) {
         if (areCoordsHorizontal(start, end)) {
-            return Math.abs(start.getCol() - end.getCol()) == ship.getCells();
+            return Math.abs(start.getCol() - end.getCol()) + 1 == ship.getCells();
         } else {
-            return Math.abs(start.getRow() - end.getRow()) == ship.getCells();
+            return Math.abs(start.getRow() - end.getRow()) + 1 == ship.getCells();
         }
     }
 
