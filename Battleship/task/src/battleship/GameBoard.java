@@ -35,21 +35,16 @@ public class GameBoard {
     }
 
     public boolean spaceForShip(Coord start, Coord end) {
-        // establish ship is horizontal or vertical
-        // establish space for ship
-        if (Coord.areCoordsHorizontal(start, end)) {
-            for (int col = start.getCol(); col < end.getCol(); col++) {
-                if (!board[start.getRow()][col].equals("~")) {
-                    return false;
-                }
+        for (int row = start.getRow() - 1; row <= end.getRow() + 1; row++) {
+            if (row < 0 || row > 9) {
+                continue;
             }
-            return true;
-        } else {
-            if (start.getRow() < end.getRow()) {
-                for (int row = start.getRow(); row < end.getRow(); row++) {
-                    if (!board[row][start.getCol()].equals("~")) {
-                        return false;
-                    }
+            for (int col = start.getCol() - 1; col <= end.getCol() + 1; col++) {
+                if (col < 0 || col > 9) {
+                    continue;
+                }
+                if (!board[row][col].equals("~")) {
+                    return false;
                 }
             }
         }
@@ -57,21 +52,56 @@ public class GameBoard {
     }
 
     public boolean inputShip(Coord start, Coord end, Ship ship) {
-        if (!Coord.isLengthCorrect(start, end, ship)) {
+        if (!isLengthCorrect(start, end, ship)) {
             System.out.println("Error: Co-ordinates are incorrect for length of ship: " + ship.getShip());
             return false;
-        } else if (!Coord.areCoordsHorizontal(start, end)) {
+        }
+        if (!spaceForShip(start, end)) {
+            System.out.println("Error: No space for ship");
+            return false;
+        }
+        if (!areCoordsHorizontal(start, end)) {
             // Inputting ship vertically
-            for (int row = start.getRow(); row <= end.getRow(); row++) {
-                board[row][start.getCol()] = "0";
-            }
+            inputShipVertically(start, end);
             return true;
         } else {
             // inputting ship horizontally
-            for (int col = start.getCol(); col <= end.getCol(); col++) {
-                board[start.getRow()][col] = "0";
-            }
+            inputShipHorizontally(start, end);
             return true;
         }
     }
+
+    public void inputShipVertically(Coord start, Coord end) {
+        for (int row = start.getRow(); row <= end.getRow(); row++) {
+            board[row][start.getCol()] = "0";
+        }
+    }
+
+    public void inputShipHorizontally(Coord start, Coord end) {
+        for (int col = start.getCol(); col <= end.getCol(); col++) {
+            board[start.getRow()][col] = "0";
+        }
+    }
+
+    public static boolean isLengthCorrect(Coord start, Coord end, Ship ship) {
+        if (areCoordsHorizontal(start, end)) {
+            return Math.abs(start.getCol() - end.getCol()) == ship.getCells();
+        } else {
+            return Math.abs(start.getRow() - end.getRow()) == ship.getCells();
+        }
+    }
+
+    public static boolean areCoordsHorizontal(Coord start, Coord end) {
+        return start.getRow() == end.getRow();
+    }
+
+    public static boolean doCoordsAscend(Coord start, Coord end) {
+        if (areCoordsHorizontal(start, end)) {
+            return start.getCol() < end.getCol();
+        } else {
+            return start.getRow() < end.getRow();
+        }
+    }
+
+
 }

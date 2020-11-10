@@ -1,32 +1,38 @@
 package battleship;
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
         GameBoard game = new GameBoard();
-        System.out.println("Printing board");
         game.printBoard();
 
-        System.out.println("Creating a new Aircraft carrier");
-        Ship carrier = new Ship(ShipType.AircraftCarrier);
-        System.out.println("Ship type: " + carrier.getShip() + " of size: " + carrier.getCells());
+        Ship[] ships = {
+                new Ship(ShipType.AircraftCarrier),
+                new Ship(ShipType.BattleShip),
+                new Ship(ShipType.Submarine),
+                new Ship(ShipType.Cruiser),
+                new Ship(ShipType.Destroyer)
+        };
 
-        System.out.println("Checking space for ship in A1 to E1");
-        Coord a1 = new Coord("A1");
-        Coord e1 = new Coord("E1");
-        System.out.println("Space for ship: " + game.spaceForShip(a1, e1));
-        System.out.println("Coords are vertical: " + !Coord.areCoordsHorizontal(a1, e1));
-        game.inputShip(a1, e1, carrier);
-        game.printBoard();
+        for (int ship = 0; ship < ships.length; ship++) {
+            System.out.println("Enter the coordinates for the " + ships[ship].getShip()
+            + " (" + ships[ship].getCells() + " cells):");
+            placeShipOnBoard(game, ships[ship], scanner);
+            game.printBoard();
+        }
+    }
 
-        System.out.println("Inputting Destroyer at I6 to I8");
-        Ship dest = new Ship(ShipType.Destroyer);
-        Coord i6 = new Coord("I6");
-        Coord i8 = new Coord("I8");
-        System.out.println("Space: " + game.spaceForShip(i6, i8));
-        System.out.println(game.inputShip(i6, i8, dest));
-        game.printBoard();
-        System.out.println("I6 row: " + i6.getRow() + " col: " + i6.getCol());
-        System.out.println("I8 row: " + i8.getRow() + " col: " + i8.getCol());
+    public static void placeShipOnBoard(GameBoard game, Ship ship, Scanner sc) {
+        boolean complete = false;
+        String input;
+        String[] inputArr;
+        while (!complete) {
+            input = sc.nextLine();
+            inputArr = input.split(" ");
+            complete = game.inputShip(new Coord(inputArr[0]), new Coord(inputArr[1]), ship);
+        }
     }
 }

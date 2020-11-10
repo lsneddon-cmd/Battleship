@@ -44,25 +44,8 @@ public class Coord {
         col = Integer.parseInt(String.valueOf(inputCoord.charAt(1))) - 1;
     }
 
-    public static boolean isLengthCorrect(Coord start, Coord end, Ship ship) {
-        if (areCoordsHorizontal(start, end)) {
-            return Math.abs(start.getCol() - end.getCol()) == ship.getCells();
-        } else {
-            return Math.abs(start.getRow() - end.getRow()) == ship.getCells();
-        }
-    }
 
-    public static boolean areCoordsHorizontal(Coord start, Coord end) {
-        return start.getRow() == end.getRow();
-    }
 
-    public static boolean doCoordsAscend(Coord start, Coord end) {
-        if (areCoordsHorizontal(start, end)) {
-            return start.getCol() < end.getCol();
-        } else {
-            return start.getRow() < end.getRow();
-        }
-    }
 
     public boolean isValidCoord() {
         return row != -1 && col > 1 && col < 10;
