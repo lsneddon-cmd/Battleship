@@ -44,9 +44,6 @@ public class Coord {
         col = Integer.parseInt(String.valueOf(inputCoord.charAt(1))) - 1;
     }
 
-
-
-
     public boolean isValidCoord() {
         return row != -1 && col > 1 && col < 10;
     }

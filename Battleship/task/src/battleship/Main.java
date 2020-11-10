@@ -31,7 +31,14 @@ public class Main {
         while (!complete) {
             input = sc.nextLine();
             inputArr = input.split(" ");
-            complete = game.inputShip(new Coord(inputArr[0]), new Coord(inputArr[1]), ship);
+            Coord start = new Coord(inputArr[0]);
+            Coord end = new Coord(inputArr[1]);
+            if (GameBoard.doCoordsAscend(start, end)) {
+                complete = game.inputShip(start, end, ship);
+            } else {
+                complete = game.inputShip(end, start, ship);
+            }
+
         }
     }
 }
