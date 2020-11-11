@@ -52,6 +52,10 @@ public class GameBoard {
     }
 
     public boolean inputShip(Coord start, Coord end, Ship ship) {
+        if (areCoordsDiagonal(start, end)) {
+            System.out.println("Error: Co-ordinates entered are diagonal");
+            return false;
+        }
         if (!isLengthCorrect(start, end, ship)) {
             System.out.println("Error: Co-ordinates are incorrect for length of ship: " + ship.getShip());
             return false;
@@ -93,6 +97,10 @@ public class GameBoard {
 
     public static boolean areCoordsHorizontal(Coord start, Coord end) {
         return start.getRow() == end.getRow();
+    }
+
+    public static boolean areCoordsDiagonal(Coord start, Coord end) {
+        return !(start.getRow() == end.getRow() || start.getCol() == end.getCol());
     }
 
     public static boolean doCoordsAscend(Coord start, Coord end) {
