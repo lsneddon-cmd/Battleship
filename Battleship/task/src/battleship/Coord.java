@@ -41,12 +41,14 @@ public class Coord {
                 // Error case
                 row = -1;
         }
-        col = Integer.parseInt(String.valueOf(inputCoord.charAt(1))) - 1;
+        if (inputCoord.length() == 3) {
+            col = 9;
+        } else {
+            col = Integer.parseInt(String.valueOf(inputCoord.charAt(1))) - 1;
+        }
+
     }
 
-    public boolean isValidCoord() {
-        return row != -1 && col > 1 && col < 10;
-    }
     public int getRow() { return row; }
     public int getCol() { return col; }
 }

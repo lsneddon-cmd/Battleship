@@ -64,7 +64,7 @@ public class GameBoard {
             // Inputting ship vertically
             inputShipVertically(start, end);
             return true;
-        } else {
+        } else  {
             // inputting ship horizontally
             inputShipHorizontally(start, end);
             return true;

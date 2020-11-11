@@ -14,6 +14,8 @@ public class Ship {
                 cells = 4;
                 break;
             case Submarine:
+                cells = 3;
+                break;
             case Cruiser:
                 cells = 3;
                 break;

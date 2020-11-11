@@ -16,10 +16,10 @@ public class Main {
                 new Ship(ShipType.Destroyer)
         };
 
-        for (int ship = 0; ship < ships.length; ship++) {
-            System.out.println("Enter the coordinates of the " + ships[ship].getShipAsString()
-            + " (" + ships[ship].getCells() + " cells):");
-            placeShipOnBoard(game, ships[ship], scanner);
+        for (Ship ship : ships) {
+            System.out.println("Enter the coordinates of the " + ship.getShipAsString()
+                    + " (" + ship.getCells() + " cells):");
+            placeShipOnBoard(game, ship, scanner);
             game.printBoard();
         }
     }
