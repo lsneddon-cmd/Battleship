@@ -51,4 +51,7 @@ public class Coord {
 
     public int getRow() { return row; }
     public int getCol() { return col; }
+    public boolean invalidCoord() {
+        return row < 0 || row > 9 || col < 0 || col > 9;
+    }
 }

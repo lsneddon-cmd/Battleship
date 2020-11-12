@@ -22,6 +22,11 @@ public class Main {
             placeShipOnBoard(game, ship, scanner);
             game.printBoard();
         }
+
+        System.out.println("The game starts!");
+        game.printBoard();
+        System.out.println("Take a shot!");
+        takeShot(game, scanner);
     }
 
     public static void placeShipOnBoard(GameBoard game, Ship ship, Scanner sc) {
@@ -39,6 +44,29 @@ public class Main {
                 complete = game.inputShip(end, start, ship);
             }
 
+        }
+    }
+
+    public static boolean takeShot(GameBoard game, Scanner sc) {
+        String input = sc.nextLine();
+        Coord shot = new Coord(input);
+        if (shot.invalidCoord()) {
+            System.out.println("Error! You entered the wrong coordinates! Try again:");
+            return false;
+        } else {
+            if (game.board[shot.getRow()][shot.getCol()].equals("~")) {
+                game.board[shot.getRow()][shot.getCol()] = "M";
+                game.printBoard();
+                System.out.println("You missed!");
+            } else if (game.board[shot.getRow()][shot.getCol()].equals("O")) {
+                game.board[shot.getRow()][shot.getCol()] = "X";
+                game.printBoard();
+                System.out.println("You hit a ship");
+            } else {
+                System.out.println("Error! You entered the wrong coordinates! Try again:");
+                return false;
+            }
+            return true;
         }
     }
 }
