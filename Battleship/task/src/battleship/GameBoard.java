@@ -34,6 +34,33 @@ public class GameBoard {
         }
     }
 
+    public void printFogBoard() {
+        System.out.print("  ");
+        for (int i = 1; i < 21; i++) {
+            if (i % 2 != 0) {
+                System.out.print(String.valueOf((i / 2) + 1));
+            } else {
+                System.out.print(' ');
+            }
+        }
+        System.out.println();
+        for (int i = 1; i < 11; i++) {
+            System.out.print(String.valueOf((char) (i + 64)));
+            for (int j = 1; j < 21; j++) {
+                if (j % 2 == 0) {
+                    if (board[i - 1][(j - 1) / 2].equals("O")) {
+                        System.out.print("~");
+                    } else {
+                        System.out.print(board[i - 1][(j - 1) / 2]);
+                    }
+                } else {
+                    System.out.print(' ');
+                }
+            }
+            System.out.println();
+        }
+    }
+
     public boolean spaceForShip(Coord start, Coord end) {
         for (int row = start.getRow() - 1; row <= end.getRow() + 1; row++) {
             if (row < 0 || row > 9) {
