@@ -42,7 +42,11 @@ public class Coord {
                 row = -1;
         }
         if (inputCoord.length() == 3) {
-            col = 9;
+            if (Integer.parseInt(String.valueOf(inputCoord.charAt(2))) == 0) {
+                col = 9;
+            } else {
+                col = -1;
+            }
         } else {
             col = Integer.parseInt(String.valueOf(inputCoord.charAt(1))) - 1;
         }

@@ -23,10 +23,14 @@ public class Main {
             game.printBoard();
         }
 
+
         System.out.println("The game starts!");
         game.printBoard();
-        System.out.println("Take a shot!");
-        takeShot(game, scanner);
+        boolean shotFired = false;
+        while (!shotFired) {
+            System.out.println("Take a shot!");
+            shotFired = takeShot(game, scanner);
+        }
     }
 
     public static void placeShipOnBoard(GameBoard game, Ship ship, Scanner sc) {
