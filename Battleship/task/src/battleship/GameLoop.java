@@ -69,6 +69,8 @@ public class GameLoop {
                 System.out.println("Error! You entered the wrong coordinates! Try again:");
                 return false;
             }
+            // TODO check if a ship is sunk and print message for each new sunken ship
+            // TODO check if all ships are sunk and return true
             return true;
         }
     }
