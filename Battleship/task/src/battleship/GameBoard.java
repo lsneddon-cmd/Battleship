@@ -78,13 +78,13 @@ public class GameBoard {
         return true;
     }
 
-    public boolean inputShip(Coord start, Coord end, Ship ship) {
+    public boolean inputShip(Coord start, Coord end, ShipType ship) {
         if (areCoordsDiagonal(start, end)) {
             System.out.println("Error: Co-ordinates entered are diagonal");
             return false;
         }
         if (!isLengthCorrect(start, end, ship)) {
-            System.out.println("Error: Co-ordinates are incorrect for length of ship: " + ship.getShip());
+            System.out.println("Error: Co-ordinates are incorrect for length of ship: " + ship.getName());
             return false;
         }
         if (!spaceForShip(start, end)) {
@@ -114,7 +114,7 @@ public class GameBoard {
         }
     }
 
-    public static boolean isLengthCorrect(Coord start, Coord end, Ship ship) {
+    public static boolean isLengthCorrect(Coord start, Coord end, ShipType ship) {
         if (areCoordsHorizontal(start, end)) {
             return Math.abs(start.getCol() - end.getCol()) + 1 == ship.getCells();
         } else {

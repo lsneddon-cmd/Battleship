@@ -6,12 +6,12 @@ public class Main {
 
         GameBoard game = new GameBoard();
 
-        Ship[] ships = {
-                new Ship(ShipType.AircraftCarrier),
-                new Ship(ShipType.BattleShip),
-                new Ship(ShipType.Submarine),
-                new Ship(ShipType.Cruiser),
-                new Ship(ShipType.Destroyer)
+        ShipType[] ships = {
+                ShipType.AircraftCarrier,
+                ShipType.BattleShip,
+                ShipType.Submarine,
+                ShipType.Cruiser,
+                ShipType.Destroyer
         };
 
         GameLoop gameLoop = new GameLoop(game, ships);

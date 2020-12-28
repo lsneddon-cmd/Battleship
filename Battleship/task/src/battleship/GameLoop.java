@@ -5,17 +5,18 @@ import java.util.Scanner;
 public class GameLoop {
     private Scanner scanner;
     private GameBoard game;
-    private Ship[] ships;
+    private ShipType[] ships;
 
-    public GameLoop(GameBoard game, Ship[] ships) {
+    public GameLoop(GameBoard game, ShipType[] ships) {
         this.scanner = new Scanner(System.in);
         this.game = game;
         this.ships = ships;
     }
 
     public void Run() {
-        for (Ship ship : ships) {
-            System.out.println("Enter the coordinates of the " + ship.getShipAsString()
+        game.printBoard();
+        for (ShipType ship : ships) {
+            System.out.println("Enter the coordinates of the " + ship.getName()
                     + " (" + ship.getCells() + " cells):");
             placeShipOnBoard(game, ship, scanner);
             game.printBoard();
@@ -32,7 +33,7 @@ public class GameLoop {
         game.printBoard();
     }
 
-    public static void placeShipOnBoard(GameBoard game, Ship ship, Scanner sc) {
+    public static void placeShipOnBoard(GameBoard game, ShipType ship, Scanner sc) {
         boolean complete = false;
         String input;
         String[] inputArr;
@@ -59,11 +60,11 @@ public class GameLoop {
         } else {
             if (game.board[shot.getRow()][shot.getCol()].equals("~")) {
                 game.board[shot.getRow()][shot.getCol()] = "M";
-                game.printBoard();
+                game.printFogBoard();
                 System.out.println("You missed!");
             } else if (game.board[shot.getRow()][shot.getCol()].equals("O")) {
                 game.board[shot.getRow()][shot.getCol()] = "X";
-                game.printBoard();
+                game.printFogBoard();
                 System.out.println("You hit a ship");
             } else {
                 System.out.println("Error! You entered the wrong coordinates! Try again:");
@@ -71,7 +72,7 @@ public class GameLoop {
             }
             // TODO check if a ship is sunk and print message for each new sunken ship
             // TODO check if all ships are sunk and return true
-            return true;
+            return false;
         }
     }
 }
