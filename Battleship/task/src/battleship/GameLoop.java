@@ -38,7 +38,7 @@ public class GameLoop {
         String input;
         String[] inputArr;
         while (!complete) {
-            input = sc.nextLine();
+            input = sc.nextLine().toUpperCase();
             inputArr = input.split(" ");
             Coord start = new Coord(inputArr[0]);
             Coord end = new Coord(inputArr[1]);
@@ -52,8 +52,7 @@ public class GameLoop {
     }
 
     public static boolean takeShot(GameBoard game, Scanner sc) {
-        String input = sc.nextLine();
-        Coord shot = new Coord(input);
+        Coord shot = new Coord(sc.nextLine().toUpperCase());
         if (shot.invalidCoord()) {
             System.out.println("Error! You entered the wrong coordinates! Try again:");
             return false;

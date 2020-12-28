@@ -85,6 +85,7 @@ public class GameBoard {
         }
         if (!isLengthCorrect(start, end, ship)) {
             System.out.println("Error: Co-ordinates are incorrect for length of ship: " + ship.getName());
+            System.out.println("This ship takes " + ship.getCells() + " cells.");
             return false;
         }
         if (!spaceForShip(start, end)) {

@@ -7,12 +7,14 @@ public enum ShipType {
     Cruiser(3, "Cruiser"),
     Destroyer(2, "Destroyer");
 
-    int cells;
-    String name;
+    private final int cells;
+    private final String name;
+    private boolean isSunk;
 
     ShipType(int cells, String name) {
         this.cells = cells;
         this.name = name;
+        this.isSunk = false;
     }
 
     public int getCells() {
@@ -21,5 +23,13 @@ public enum ShipType {
 
     public String getName() {
         return name;
+    }
+
+    public boolean isSunk() {
+        return isSunk;
+    }
+
+    public void setSunk(boolean sunk) {
+        isSunk = sunk;
     }
 }
