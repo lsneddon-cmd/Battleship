@@ -27,34 +27,41 @@ public class GameLoop {
     }
 
     public void Run() {
-        game.printBoard();
-        for (ShipType ship : ships) {
-            System.out.println("Enter the coordinates of the " + ship.getName()
-                    + " (" + ship.getCells() + " cells):");
-            placeShipOnBoard(game, ship, scanner);
-            game.printBoard();
-        }
-
-
+        placeAllShips();
         System.out.println(Message.START.getText());
         game.printFogBoard();
+
+        takeShotsUntilWon();
+    }
+
+    private void takeShotsUntilWon() {
         boolean won = false;
         System.out.println(Message.SHOT.getText());
         while (!won) {
             won = takeShot();
         }
-        game.printBoard();
     }
 
-    public static void placeShipOnBoard(GameBoard game, ShipType ship, Scanner sc) {
+    private void placeAllShips() {
+        for (ShipType ship : ships) {
+            System.out.println(
+                    "Enter the coordinates of the "
+                            + ship.getName()
+                            + " ("
+                            + ship.getCells()
+                            + " cells):"
+            );
+            placeShipOnBoard(ship);
+            game.printBoard();
+        }
+    }
+
+    private void placeShipOnBoard(ShipType ship) {
         boolean complete = false;
-        String input;
-        String[] inputArr;
         while (!complete) {
-            input = sc.nextLine().toUpperCase();
-            inputArr = input.split(" ");
-            Coord start = new Coord(inputArr[0]);
-            Coord end = new Coord(inputArr[1]);
+            Coord[] shipPlacement = parseShipPlacement(scanner);
+            Coord start = shipPlacement[0];
+            Coord end = shipPlacement[1];
             if (GameBoard.doCoordsAscend(start, end)) {
                 complete = game.inputShip(start, end, ship);
             } else {
@@ -63,29 +70,33 @@ public class GameLoop {
         }
     }
 
-    public boolean takeShot() {
-        Coord shot = new Coord(scanner.nextLine().toUpperCase());
+    private static Coord[] parseShipPlacement(Scanner sc) {
+        String[] input = sc.nextLine().toUpperCase().split(" ");
+        Coord[] output = new Coord[2];
+        output[0] = new Coord(input[0]);
+        output[1] = new Coord(input[1]);
+        return output;
+    }
+
+    private static Coord parseShotCoord(Scanner sc) {
+        return new Coord(sc.nextLine().toUpperCase());
+    }
+
+    private boolean takeShot() {
+        Coord shot = parseShotCoord(scanner);
         if (shot.invalidCoord()) {
             System.out.println(Message.ERROR.getText());
             return false;
         } else {
-            if (game.board[shot.getRow()][shot.getCol()].equals("~")) {
-                game.board[shot.getRow()][shot.getCol()] = "M";
-                game.printFogBoard();
-                System.out.println(Message.MISS.getText());
-            } else if (game.board[shot.getRow()][shot.getCol()].equals("O")
-                        || game.board[shot.getRow()][shot.getCol()].equals("X")) {
-                game.board[shot.getRow()][shot.getCol()] = "X";
-                game.printFogBoard();
-                System.out.println(Message.HIT.getText());
-                establishShipHit(shot);
+            if (missedShot(shot)) {
+                handleMissedShot(shot);
+            } else if (successfulShot(shot)) {
+                handleSuccessfulShot(shot);
             } else {
                 System.out.println(Message.ERROR.getText());
                 return false;
             }
-            // TODO check if a ship is sunk and print message for each new sunken ship
-            // TODO check if all ships are sunk and return true
-            if (ShipType.getSunkCount() == 5) {
+            if (areAllShipsSunk()) {
                 System.out.println(Message.WIN.getText());
                 return true;
             }
@@ -93,23 +104,64 @@ public class GameLoop {
         }
     }
 
-    public void establishShipHit(Coord shot) {
+    private boolean areAllShipsSunk() {
+        return ShipType.getSunkCount() == ships.length;
+    }
+
+    private boolean missedShot(Coord shot) {
+        return game.board[shot.getRow()][shot.getCol()].equals(CellData.FOG.getDisplay());
+    }
+
+    private void handleMissedShot(Coord shot) {
+        game.board[shot.getRow()][shot.getCol()] = CellData.MISSED.getDisplay();
+        game.printFogBoard();
+        System.out.println(Message.MISS.getText());
+    }
+
+    private boolean successfulShot(Coord shot) {
+        return game.board[shot.getRow()][shot.getCol()].equals(CellData.SHIP.getDisplay())
+                || game.board[shot.getRow()][shot.getCol()].equals(CellData.HIT.getDisplay());
+    }
+
+    private void handleSuccessfulShot(Coord shot) {
+        game.board[shot.getRow()][shot.getCol()] = CellData.HIT.getDisplay();
+        game.printFogBoard();
+        System.out.println(Message.HIT.getText());
+        establishShipHit(shot);
+    }
+
+    private void establishShipHit(Coord shot) {
         for (ShipType ship : ships) {
             if (ship.isHorizontal()) {
-                if (shot.getCol() >= ship.getStart().getCol() && shot.getCol() <= ship.getEnd().getCol() && shot.getRow() == ship.getStart().getRow()) {
-                    ship.hitCell();
-                    if (ship.isSunk()) {
-                        System.out.println(Message.SANK.getText());
-                    }
+                if (shotHitsHorizontalShip(shot, ship)) {
+                    hitShip(ship);
                 }
             } else {
-                if (shot.getRow() >= ship.getStart().getRow() && shot.getRow() <= ship.getEnd().getRow() && shot.getCol() == ship.getStart().getCol()) {
-                    ship.hitCell();
-                    if (ship.isSunk()) {
-                        System.out.println(Message.SANK.getText());
-                    }
+                if (shotHitsVerticalShip(shot, ship)) {
+                    hitShip(ship);
                 }
             }
+        }
+    }
+
+    private static boolean shotHitsHorizontalShip(Coord shot, ShipType ship) {
+        boolean isRowSame = shot.getRow() == ship.getStart().getRow();
+        boolean isShotWithinLeftBound = shot.getCol() >= ship.getStart().getCol();
+        boolean isShotWithinRightBound = shot.getCol() <= ship.getEnd().getCol();
+        return isShotWithinLeftBound && isShotWithinRightBound && isRowSame;
+    }
+
+    private static boolean shotHitsVerticalShip(Coord shot, ShipType ship) {
+        boolean isColumnSame = shot.getCol() == ship.getStart().getCol();
+        boolean isShotWithinTopBound = shot.getRow() >= ship.getStart().getRow();
+        boolean isShotWithinBottomBound = shot.getRow() <= ship.getEnd().getRow();
+        return isShotWithinTopBound && isShotWithinBottomBound && isColumnSame;
+    }
+
+    private void hitShip(ShipType ship) {
+        ship.hitCell();
+        if (ship.isSunk()) {
+            System.out.println(Message.SANK.getText());
         }
     }
 }
