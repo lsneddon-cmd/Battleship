@@ -6,7 +6,7 @@ public class GameBoard {
     public GameBoard() {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[0].length; j++) {
-                board[i][j] = "~";
+                board[i][j] = CellData.FOG.getDisplay();
             }
         }
     }
@@ -48,8 +48,8 @@ public class GameBoard {
             System.out.print(String.valueOf((char) (i + 64)));
             for (int j = 1; j < 21; j++) {
                 if (j % 2 == 0) {
-                    if (board[i - 1][(j - 1) / 2].equals("O")) {
-                        System.out.print("~");
+                    if (board[i - 1][(j - 1) / 2].equals(CellData.SHIP.getDisplay())) {
+                        System.out.print(CellData.FOG.getDisplay());
                     } else {
                         System.out.print(board[i - 1][(j - 1) / 2]);
                     }
@@ -61,21 +61,29 @@ public class GameBoard {
         }
     }
 
-    public boolean spaceForShip(Coord start, Coord end) {
+    private boolean spaceForShip(Coord start, Coord end) {
         for (int row = start.getRow() - 1; row <= end.getRow() + 1; row++) {
-            if (row < 0 || row > 9) {
+            if (intOutOfBoundsForGrid(row)) {
                 continue;
             }
             for (int col = start.getCol() - 1; col <= end.getCol() + 1; col++) {
-                if (col < 0 || col > 9) {
+                if (intOutOfBoundsForGrid(col)) {
                     continue;
                 }
-                if (!board[row][col].equals("~")) {
+                if (!isCellWater(row, col)) {
                     return false;
                 }
             }
         }
         return true;
+    }
+
+    private static boolean intOutOfBoundsForGrid(int i) {
+        return i < 0 || i > 9;
+    }
+
+    private boolean isCellWater(int row, int col) {
+        return board[row][col].equals(CellData.FOG.getDisplay());
     }
 
     public boolean inputShip(Coord start, Coord end, ShipType ship) {
@@ -84,8 +92,11 @@ public class GameBoard {
             return false;
         }
         if (!isLengthCorrect(start, end, ship)) {
-            System.out.println("Error: Co-ordinates are incorrect for length of ship: " + ship.getName());
-            System.out.println("This ship takes " + ship.getCells() + " cells.");
+            System.out.println("Error: Co-ordinates are incorrect for length of ship: "
+                    + ship.getName());
+            System.out.println("This ship takes "
+                    + ship.getCells()
+                    + " cells.");
             return false;
         }
         if (!spaceForShip(start, end)) {
@@ -109,19 +120,19 @@ public class GameBoard {
         }
     }
 
-    public void inputShipVertically(Coord start, Coord end) {
+    private void inputShipVertically(Coord start, Coord end) {
         for (int row = start.getRow(); row <= end.getRow(); row++) {
-            board[row][start.getCol()] = "O";
+            board[row][start.getCol()] = CellData.SHIP.getDisplay();
         }
     }
 
-    public void inputShipHorizontally(Coord start, Coord end) {
+    private void inputShipHorizontally(Coord start, Coord end) {
         for (int col = start.getCol(); col <= end.getCol(); col++) {
-            board[start.getRow()][col] = "O";
+            board[start.getRow()][col] = CellData.SHIP.getDisplay();
         }
     }
 
-    public static boolean isLengthCorrect(Coord start, Coord end, ShipType ship) {
+    private static boolean isLengthCorrect(Coord start, Coord end, ShipType ship) {
         if (areCoordsHorizontal(start, end)) {
             return Math.abs(start.getCol() - end.getCol()) + 1 == ship.getCells();
         } else {
@@ -129,11 +140,11 @@ public class GameBoard {
         }
     }
 
-    public static boolean areCoordsHorizontal(Coord start, Coord end) {
+    private static boolean areCoordsHorizontal(Coord start, Coord end) {
         return start.getRow() == end.getRow();
     }
 
-    public static boolean areCoordsDiagonal(Coord start, Coord end) {
+    private static boolean areCoordsDiagonal(Coord start, Coord end) {
         return !(start.getRow() == end.getRow() || start.getCol() == end.getCol());
     }
 
