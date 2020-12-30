@@ -72,9 +72,10 @@ public class GameLoop {
 
     private static Coord[] parseShipPlacement(Scanner sc) {
         String[] input = sc.nextLine().toUpperCase().split(" ");
-        Coord[] output = new Coord[2];
-        output[0] = new Coord(input[0]);
-        output[1] = new Coord(input[1]);
+        Coord[] output = {
+                new Coord(input[0]),
+                new Coord(input[1])
+        };
         return output;
     }
 
