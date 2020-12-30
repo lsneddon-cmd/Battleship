@@ -3,14 +3,27 @@ package battleship;
 import java.util.Scanner;
 
 public class GameLoop {
-    private Scanner scanner;
-    private GameBoard game;
-    private ShipType[] ships;
+    private final Scanner scanner;
+    private final GameBoard game;
+    private final ShipType[] ships = {
+            ShipType.AircraftCarrier,
+            ShipType.BattleShip,
+            ShipType.Submarine,
+            ShipType.Cruiser,
+            ShipType.Destroyer
+    };
+    private static GameLoop instance;
 
-    public GameLoop(GameBoard game, ShipType[] ships) {
+    private GameLoop(GameBoard game) {
         this.scanner = new Scanner(System.in);
         this.game = game;
-        this.ships = ships;
+    }
+
+    public static GameLoop getInstance(GameBoard game) {
+        if (instance == null) {
+            instance = new GameLoop(game);
+        }
+        return instance;
     }
 
     public void Run() {
@@ -28,7 +41,7 @@ public class GameLoop {
         boolean won = false;
         while (!won) {
             System.out.println("Take a shot!");
-            won = takeShot(game, scanner);
+            won = takeShot();
         }
         game.printBoard();
     }
@@ -47,12 +60,11 @@ public class GameLoop {
             } else {
                 complete = game.inputShip(end, start, ship);
             }
-
         }
     }
 
-    public static boolean takeShot(GameBoard game, Scanner sc) {
-        Coord shot = new Coord(sc.nextLine().toUpperCase());
+    public boolean takeShot() {
+        Coord shot = new Coord(scanner.nextLine().toUpperCase());
         if (shot.invalidCoord()) {
             System.out.println("Error! You entered the wrong coordinates! Try again:");
             return false;
@@ -65,13 +77,38 @@ public class GameLoop {
                 game.board[shot.getRow()][shot.getCol()] = "X";
                 game.printFogBoard();
                 System.out.println("You hit a ship");
+                establishShipHit(shot);
             } else {
                 System.out.println("Error! You entered the wrong coordinates! Try again:");
                 return false;
             }
             // TODO check if a ship is sunk and print message for each new sunken ship
             // TODO check if all ships are sunk and return true
+            if (ShipType.getSunkCount() == 5) {
+                System.out.println("You sank the last ship. You won. Congratulations!");
+                return true;
+            }
             return false;
+        }
+    }
+
+    public void establishShipHit(Coord shot) {
+        for (ShipType ship : ships) {
+            if (ship.isHorizontal()) {
+                if (shot.getCol() >= ship.getStart().getCol() && shot.getCol() <= ship.getEnd().getCol() && shot.getRow() == ship.getStart().getRow()) {
+                    ship.hitCell();
+                    if (ship.isSunk()) {
+                        System.out.println("You sank a ship!");
+                    }
+                }
+            } else {
+                if (shot.getRow() >= ship.getStart().getRow() && shot.getRow() <= ship.getEnd().getRow() && shot.getCol() == ship.getStart().getCol()) {
+                    ship.hitCell();
+                    if (ship.isSunk()) {
+                        System.out.println("You sank a ship!");
+                    }
+                }
+            }
         }
     }
 }

@@ -6,15 +6,8 @@ public class Main {
 
         GameBoard game = new GameBoard();
 
-        ShipType[] ships = {
-                ShipType.AircraftCarrier,
-                ShipType.BattleShip,
-                ShipType.Submarine,
-                ShipType.Cruiser,
-                ShipType.Destroyer
-        };
+        GameLoop gameLoop = GameLoop.getInstance(game);
 
-        GameLoop gameLoop = new GameLoop(game, ships);
         gameLoop.Run();
     }
 

@@ -95,10 +95,16 @@ public class GameBoard {
         if (!areCoordsHorizontal(start, end)) {
             // Inputting ship vertically
             inputShipVertically(start, end);
+            ship.setHorizontal(false);
+            ship.setStart(start);
+            ship.setEnd(end);
             return true;
         } else  {
             // inputting ship horizontally
             inputShipHorizontally(start, end);
+            ship.setHorizontal(true);
+            ship.setStart(start);
+            ship.setEnd(end);
             return true;
         }
     }
