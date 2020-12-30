@@ -36,11 +36,11 @@ public class GameLoop {
         }
 
 
-        System.out.println("The game starts!");
+        System.out.println(Message.START.getText());
         game.printFogBoard();
         boolean won = false;
+        System.out.println(Message.SHOT.getText());
         while (!won) {
-            System.out.println("Take a shot!");
             won = takeShot();
         }
         game.printBoard();
@@ -66,26 +66,27 @@ public class GameLoop {
     public boolean takeShot() {
         Coord shot = new Coord(scanner.nextLine().toUpperCase());
         if (shot.invalidCoord()) {
-            System.out.println("Error! You entered the wrong coordinates! Try again:");
+            System.out.println(Message.ERROR.getText());
             return false;
         } else {
             if (game.board[shot.getRow()][shot.getCol()].equals("~")) {
                 game.board[shot.getRow()][shot.getCol()] = "M";
                 game.printFogBoard();
-                System.out.println("You missed!");
-            } else if (game.board[shot.getRow()][shot.getCol()].equals("O")) {
+                System.out.println(Message.MISS.getText());
+            } else if (game.board[shot.getRow()][shot.getCol()].equals("O")
+                        || game.board[shot.getRow()][shot.getCol()].equals("X")) {
                 game.board[shot.getRow()][shot.getCol()] = "X";
                 game.printFogBoard();
-                System.out.println("You hit a ship");
+                System.out.println(Message.HIT.getText());
                 establishShipHit(shot);
             } else {
-                System.out.println("Error! You entered the wrong coordinates! Try again:");
+                System.out.println(Message.ERROR.getText());
                 return false;
             }
             // TODO check if a ship is sunk and print message for each new sunken ship
             // TODO check if all ships are sunk and return true
             if (ShipType.getSunkCount() == 5) {
-                System.out.println("You sank the last ship. You won. Congratulations!");
+                System.out.println(Message.WIN.getText());
                 return true;
             }
             return false;
@@ -98,14 +99,14 @@ public class GameLoop {
                 if (shot.getCol() >= ship.getStart().getCol() && shot.getCol() <= ship.getEnd().getCol() && shot.getRow() == ship.getStart().getRow()) {
                     ship.hitCell();
                     if (ship.isSunk()) {
-                        System.out.println("You sank a ship!");
+                        System.out.println(Message.SANK.getText());
                     }
                 }
             } else {
                 if (shot.getRow() >= ship.getStart().getRow() && shot.getRow() <= ship.getEnd().getRow() && shot.getCol() == ship.getStart().getCol()) {
                     ship.hitCell();
                     if (ship.isSunk()) {
-                        System.out.println("You sank a ship!");
+                        System.out.println(Message.SANK.getText());
                     }
                 }
             }
